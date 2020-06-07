@@ -15,7 +15,8 @@
     var gt;
     var la;
            window.onload = function exampleFunction() { 
-            $("#tcrow").hide(); 
+            $("#tcrow").hide();
+            fetch() 
 
 }
     function fetch(){
@@ -26,7 +27,7 @@
         dataType: "JSON",
         data:'',
         success:function(data){
-          $("#tcrow").show(); 
+          
           gt= data.results['CPU Credits'].split('/');
           la=[gt[1]-gt[0], parseInt(gt[1])];
           console.log([gt[1]-gt[0], parseInt(gt[1])])
@@ -38,6 +39,7 @@
 
 $('#tble').empty().append(trhtml);     
 canva();
+$("#tcrow").show();
         }, 
                      error: function(xhr, status, error)  {  
                          console.log(xhr);  
@@ -52,49 +54,7 @@ canva();
 
 
 <div id="wrapper">
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="adjust-nav">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"><i class="fa fa-square-o "></i>&nbsp;AWS Details</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">See Website</a></li>
-            </ul>
-        </div>
 
-    </div>
-</div>
-<!-- /. NAV TOP  -->
-<nav class="navbar-default navbar-side" role="navigation">
-    <div class="sidebar-collapse">
-        <ul class="nav" id="main-menu">
-
-
-            <li>
-                <a href="/" style="cursor: pointer;"><i class="fa fa-home"></i>Home</a>
-            </li>
-            <li>
-                <a onclick="fetch()" style="cursor: pointer;"><i class="fa fa-desktop "></i>EC2 details</a>
-                
-            </li>
-
-            <li>
-                <a href="#"><i class="fa fa-table "></i>Table Examples</a>
-            </li>
-            <li>
-                <a href="#"><i class="fa fa-edit "></i>Forms </a>
-            </li>
-        </ul>
-
-    </div>
-
-</nav>
 
 {% block content %}{% endblock %} 
 

@@ -26,14 +26,14 @@
 
 
             <li >
-                <a href="/" style="cursor: pointer;" class="btn btn-primary btn-lg active"><i class="fa fa-home"></i>Home</a>
+                <a href="/" style="cursor: pointer;" ><i class="fa fa-home"></i>Home</a>
             </li>
             <li>
-                <a href="#" class="pointerr"> <i class="fa fa-dollar "></i>Cost and Usage</a>
+                <a class="btn btn-primary btn-lg active"> <i class="fa fa-desktop "></i>EC2 details</a>
                 
             </li>
 
-           
+            
         </ul>
 
     </div>
@@ -49,13 +49,7 @@
                   <div class="panel panel-primary text-center no-boder bg-color-blue">
                       <div class="panel-body">
                           <i class="fa fa-bar-chart-o fa-5x"></i>
-                          {%if volumesize > 30%}
-                          <h3>{{volumesize}}* GB</h3>
-                          <h6>*volume exceeded free tier limit</h6>
-                          {%else%}
-                          <h3>{{volumesize}} GB<h3>
-                          <h6>*{{volleft}} GB left in free tier<h6>
-                          {%endif%}
+                         
                       </div>
                       <div class="panel-footer back-footer-blue">
                           EBS Used

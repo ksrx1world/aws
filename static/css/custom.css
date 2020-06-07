@@ -242,3 +242,6 @@ border-radius: 0px;
     cursor: pointer;
 }
 
+.activ{
+    background: grey;
+}

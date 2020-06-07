@@ -20,9 +20,11 @@ class config:
 
 
 
-res = boto3.resource('ec2',region_name=config.region)
+res = boto3.resource('ec2', region_name=config.region)
 ec2 = boto3.client('ec2', region_name=config.region)
 cloudfront = boto3.client('cloudwatch', region_name=config.region)
+cost = boto3.client('ce', region_name=config.region)
+
 
 
 response = ec2.describe_instances(InstanceIds=[config.InstanceIds])
@@ -80,21 +82,62 @@ def instdetails():
     response = ec2.describe_instances(InstanceIds=[config.InstanceIds])
     return response
     
-@app.route('/lsl')
+@app.route('/costdetails')
 def shows():
-    instance = res.Instance(instanceid)
-    volumes = instance.volumes.all()
-    for volume in volumes:
-        volumesize =+ volume.size
+       
 
-        return str(volumesize)
 
+        return render_template('costdetails.html')
 
 
 if __name__ == "__main__" :
     app.run(debug=True)
 
 
+#  response = cost.get_cost_and_usage_with_resources(
+#         Granularity='DAILY',
+#         Metrics=[
+#         'AmortizedCost', 'UsageQuantity'
+#         ],
+#         TimePeriod={
+#         'Start': '2020-06-06',
+#         'End': '2020-06-07'
+#         },
+#         Filter = list(
+#         Or = list(
+#         list()
+#         ),
+#         And = list(
+#         list()
+#         ),
+#         Not = list(),
+#         Dimensions = list(
+#         Key = "REGION",
+#         Values = list(
+#             config.region
+#         )
+#         ),
+#         Tags = list(
+#         Key = "alphabeta",
+#         Values = list(
+#             "alphavbeta"
+#         )
+#         ),
+#         CostCategories = list(
+#         Key = "string",
+#         Values = list(
+#             "string"
+#         )
+#         )
+#         ),
+#         GroupBy = list(
+#         list(
+#         Type = "DIMENSION"|"TAG"|"COST_CATEGORY",
+#         Key = "string"
+#         )
+#         ),
+#         NextPageToken = "s"
+#             )
 
 
 
