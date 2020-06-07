@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+   
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <script type=text/javascript>
+    var gt;
+    var la;
+           window.onload = function exampleFunction() { 
+            $("#tcrow").hide(); 
+
+}
+    function fetch(){
+      console.log("hii")
+      $.ajax({
+        url:'/details',
+        type:"GET",
+        dataType: "JSON",
+        data:'',
+        success:function(data){
+          $("#tcrow").show(); 
+          gt= data.results['CPU Credits'].split('/');
+          la=[gt[1]-gt[0], parseInt(gt[1])];
+          console.log([gt[1]-gt[0], parseInt(gt[1])])
+          
+          var trhtml="";
+          $.each(data.results,function(key,value){
+            trhtml += '<tr class="tableizer-firstrow"><th class="bg-color-blue "style=" padding: 10px !important;background: ;text-align: center; color: white;">' + key + '</th><td   style="border: 4px solid #fff !important;padding: 10px !important;background: #f8f8f8 !important;">' + value + '</td></tr>';
+})
+
+$('#tble').empty().append(trhtml);     
+canva();
+        }, 
+                     error: function(xhr, status, error)  {  
+                         console.log(xhr);  
+                     } 
+      })
+    }  
+</script>
+
+</head>
+<body>
+  
+
+
+<div id="wrapper">
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="adjust-nav">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#"><i class="fa fa-square-o "></i>&nbsp;AWS Details</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">See Website</a></li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+<!-- /. NAV TOP  -->
+<nav class="navbar-default navbar-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="main-menu">
+
+
+            <li>
+                <a href="/" style="cursor: pointer;"><i class="fa fa-home"></i>Home</a>
+            </li>
+            <li>
+                <a onclick="fetch()" style="cursor: pointer;"><i class="fa fa-desktop "></i>EC2 details</a>
+                
+            </li>
+
+            <li>
+                <a href="#"><i class="fa fa-table "></i>Table Examples</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-edit "></i>Forms </a>
+            </li>
+        </ul>
+
+    </div>
+
+</nav>
+
+{% block content %}{% endblock %} 
+
+
+</div>
+
+
+
+
+
+
+    
+
+
+<script src="{{ url_for('static', filename='js/jquery-1.10.2.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.metisMenu.js') }}"></script>
+<script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+<script src="{{ url_for('static', filename='js/Chart.min.js') }}"></script>
+</body>
+</html>
