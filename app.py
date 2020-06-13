@@ -26,36 +26,40 @@ cloudfront = boto3.client('cloudwatch', region_name=config.region)
 cost = boto3.client('ce', region_name=config.region)
 
 
-
-response = ec2.describe_instances(InstanceIds=[config.InstanceIds])
-instanceip=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('PublicIpAddress')
-instanceid=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('InstanceId')
-instancetype=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('InstanceType')
-instanceloc=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('KeyName')
-volumeid=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('BlockDeviceMappings', [{}])[0].get('Ebs').get('VolumeId')
+def reini():
+    response = ec2.describe_instances(InstanceIds=[config.InstanceIds])
+    instanceip=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('PublicIpAddress')
+    instanceid=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('InstanceId')
+    instancetype=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('InstanceType')
+    instanceloc=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('KeyName')
+    volumeid=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('BlockDeviceMappings', [{}])[0].get('Ebs').get('VolumeId')
+    statuscode=response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('State', {}).get('Code')
+    appy=[response, instanceip,instanceid,instancetype,instanceloc,volumeid,statuscode]
+    return appy
 volumesize=0
 # def instancedetails():
 #     response = ec2.describe_instances(InstanceIds=[config.InstanceIds])
 #     return render_template('index.html', ip=(response.get('Reservations', [{}])[0].get('Instances',[{}])[0].get('PublicIpAddress')))
 
-defvol = res.Volume(volumeid)
   
 
 
 @app.route('/')
 def cpucredit():
-    instance = res.Instance(instanceid)
+    ab=reini()
+    instance = res.Instance(ab[2])
     volumes = instance.volumes.all()
     for volume in volumes:
         volumesize =+ volume.size
     # volumesize=40       
     volleft=30-volumesize
-    return render_template('index.html',volumesize=volumesize,volleft=volleft)
+    return render_template('index.html',volumesize=volumesize,volleft=volleft, statuscode=ab[6])
     # return (int(credit.get('Datapoints', [{}])[0].get('Average')))
     
 
 @app.route('/details/' , methods=['GET','POST'])
 def instancedetails():
+    ab=reini()
     credit = cloudfront.get_metric_statistics(
             Namespace='AWS/EC2',
             MetricName='CPUCreditBalance',
@@ -72,23 +76,42 @@ def instancedetails():
                 'Average',
             ]
         )
-    d=str(int(credit.get('Datapoints', [{}])[0].get('Average')))+" /144"        
-    jso= {"CPU Credits" : d,"Instance Id" : instanceid,"Instance Ipv4" : instanceip, "Instance type" : instancetype ,"Instance location" : instanceloc
+    if len(credit.get('Datapoints',[])) < 1 :
+        d="start your server"
+    else:        
+        d=str(int(credit.get('Datapoints', [{}])[0].get('Average')))+" /169"        
+    jso= {"CPU Credits" : d,"Instance Id" : ab[2],"Instance Ipv4" : ab[1], "Instance type" : ab[3] ,"Instance location" : ab[4]
         } 
     return jsonify(results = jso)
 
 @app.route('/d/')
 def instdetails():
-    response = ec2.describe_instances(InstanceIds=[config.InstanceIds])
-    return response
+    ab=reini()
+    return ab[0]
     
-@app.route('/costdetails')
-def shows():
+@app.route('/stop/', methods=['GET','POST'])
+def stop():
+    try:
+        ec2.stop_instances(InstanceIds=[config.InstanceIds])
+        status="true"
+        return status
+    except Exception as e:
+        print(e)
+        status='false'
+        return status
+        
+
+@app.route('/start/')
+def start():
+    try:
+        ec2.start_instances(InstanceIds=[config.InstanceIds])
+        status="true"
+        return status
+    except Exception as e:
+        print(e)
+        status='false'
+        return status
        
-
-
-        return render_template('costdetails.html')
-
 
 if __name__ == "__main__" :
     app.run(debug=True)

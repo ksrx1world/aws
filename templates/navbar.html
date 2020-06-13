@@ -14,11 +14,65 @@
     <script type=text/javascript>
     var gt;
     var la;
+    sol=0;
            window.onload = function exampleFunction() { 
-            $("#tcrow").hide();
+            $("#loading").hide();
             fetch() 
 
 }
+function loading(){
+            if (sol == 0 ) {
+           $("#loading").hide();
+           $("#content1").show();       
+         }
+         else{
+          $("#loading").show();
+           $("#content1").hide(); 
+         }
+         };
+function reload() {
+  setTimeout(function() {
+            document.location.reload()
+            }, 20000);
+}         
+function stop(){
+      console.log("stop")
+      $.ajax({
+        url:'/stop',
+        type:"GET",
+        dataType: "JSON",
+        data:'',
+        success:function(data){
+          sol=1;
+          loading()
+          reload()
+          
+            
+
+          console.log(data)
+}})}
+
+function start(){
+      console.log("start")
+      $.ajax({
+        url:'/start',
+        type:"GET",
+        dataType: "JSON",
+        data:'',
+        success:function(data){
+          sol=1;
+          loading()
+          reload()
+
+          console.log(data)
+}})}
+      
+
+
+
+
+
+
     function fetch(){
       console.log("hii")
       $.ajax({

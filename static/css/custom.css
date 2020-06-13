@@ -21,7 +21,7 @@ body {
 #page-wrapper {
     padding: 15px 15px;
     min-height: 600px;
-    background:#F3F3F3;
+    background:#fff;
    
 }
 #page-inner {
@@ -245,3 +245,15 @@ border-radius: 0px;
 .activ{
     background: grey;
 }
+
+div#loading  {
+    -webkit-appearance: none;
+    appearance: none;
+    position: absolute;
+    top: 40%;
+    bottom: 50%;
+    left: 50%;
+    right: 50%;
+    
+    display: none;
+    }   

@@ -28,10 +28,6 @@
             <li >
                 <a href="/" style="cursor: pointer;" class="btn btn-primary btn-lg active"><i class="fa fa-home"></i>Home</a>
             </li>
-            <li>
-                <a href="#" class="pointerr"> <i class="fa fa-dollar "></i>Cost and Usage</a>
-                
-            </li>
 
            
         </ul>
@@ -40,29 +36,52 @@
 
 </nav>
   <!-- /. NAV SIDE  -->
-  <div id="page-wrapper" id="tcrow">
+  <div id="page-wrapper">
       <div id="page-inner">
+          <div id="loading">
+                <div class="row">
+                <img src="../static/images/loader1.gif" alt="animated" class="img-fluid" />
+                <p style="text-align: center;">Please wait 30 Seconds<p>
+              </div> 
 
-          <div class="row"> 
-              <div class="col-md-4 col-sm-4 col-xs-12" >
-                <h5>EBS usage</h5>
-                  <div class="panel panel-primary text-center no-boder bg-color-blue">
-                      <div class="panel-body">
-                          <i class="fa fa-bar-chart-o fa-5x"></i>
-                          {%if volumesize > 30%}
-                          <h3>{{volumesize}}* GB</h3>
-                          <h6>*volume exceeded free tier limit</h6>
-                          {%else%}
-                          <h3>{{volumesize}} GB<h3>
-                          <h6>*{{volleft}} GB left in free tier<h6>
-                          {%endif%}
+          </div>
+             
+        <div id="content1">
+          <div class="row" > 
+             
+              {%if statuscode == 16%}
+            <div class="col-md-4 col-sm-4 col-xs-12" >
+              <h5>Status</h5>
+                <div class="panel panel-primary text-center no-boder bg-success">
+                    <div class="panel-body bg-success">
+                        <i class="fa fa-play fa-5x"></i>
+                        <h3>Running</h3>
+                        <h6>Your Instance is Running</h6>
+                        
+                    </div>
+                    <div class="panel-footer">
+                        Status code: {{statuscode}}
+                    
+                    </div>
+                </div>
+            </div>
+            {%elif statuscode == 80%}
+            <div class="col-md-4 col-sm-4 col-xs-12" >
+                <h5>Status</h5>
+                  <div class="panel panel-primary text-center no-boder">
+                      <div class="panel-body bg-danger">
+                          <i class="fa fa-stop fa-5x"></i>
+                          <h3>Stopped</h3>
+                          <h6>YOur Instance is Stopped</h6>
+                          
                       </div>
-                      <div class="panel-footer back-footer-blue">
-                          EBS Used
+                      <div class="panel-footer">
+                          Status code: {{statuscode}}
                       
                       </div>
                   </div>
               </div>
+            {%endif%}
               <div class="col-md-4 col-sm-4 col-xs-12 ">
                 <h5>Instance Details</h5>
                 <div class="table-responsive table-hover ">
@@ -131,6 +150,53 @@
               </div> -->
 
           </div>
+          <div class="row">
+            <div class="col-md-4 col-sm-4 col-xs-12" >
+                <h5>EBS usage</h5>
+                  <div class="panel panel-primary text-center no-boder bg-color-blue">
+                      <div class="panel-body">
+                          <i class="fa fa-bar-chart-o fa-5x"></i>
+                          {%if volumesize > 30%}
+                          <h3>{{volumesize}}* GB</h3>
+                          <h6>*volume exceeded free tier limit</h6>
+                          {%else%}
+                          <h3>{{volumesize}} GB<h3>
+                          <h6>*{{volleft}} GB left in free tier<h6>
+                          {%endif%}
+                      </div>
+                      <div class="panel-footer back-footer-blue">
+                          EBS Used
+                      
+                      </div>
+                  </div>
+              </div> 
+              {%if statuscode == 16%}
+              <div class="col-md-6 col-sm-6 col-xs-12" >
+                <h5>Stop</h5>
+                  <div class="panel panel-primary no-boder text-center bg-success">
+                      <div class="panel-body bg-success" >
+                          <h5 style="text-align: center;">Would you like to stop your instance?</h5>
+                          <button class="btn btn-danger" onclick="stop()"><i class="fa fa-stop fa-5x"></i></button>
+                          <h6>Click me to stop</h6>
+                      </div>
+                  </div>
+              </div>
+              {%elif statuscode == 80%}
+              <div class="col-md-6 col-sm-6 col-xs-12" >
+                <h5>Stop</h5>
+                  <div class="panel panel-primary no-boder text-center bg-danger">
+                      <div class="panel-body bg-danger" >
+                          <h5 style="text-align: center;">Would you like to start your instance?</h5>
+                          <button class="btn btn-success" onclick="start()"><i class="fa fa-play fa-5x"></i></button>
+                          <h6>Click me to start</h6>
+                      </div>
+                  </div>
+              </div>
+              {%endif%}     
+            
+           
+
+        </div> 
           <!-- /. ROW  -->
           <hr />
           <!-- <div class="row" id="tcrow">
@@ -179,7 +245,7 @@
           
           </div> -->
        
-
+</div>
       </div>
       <!-- /. PAGE INNER  -->
   </div>
