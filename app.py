@@ -44,7 +44,7 @@ volumesize=0
   
 
 
-@app.route('/')
+@app.route('/fggfghhgfhmgkinmoimnhgonmhn')
 def cpucredit():
     ab=reini()
     instance = res.Instance(ab[2])
