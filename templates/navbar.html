@@ -36,7 +36,7 @@ function reload() {
             }, 20000);
 }         
 function stop(){
-      console.log("stop")
+      console.log("stop");
       $.ajax({
         url:'/stop',
         type:"GET",
@@ -53,7 +53,7 @@ function stop(){
 }})}
 
 function start(){
-      console.log("start")
+      console.log("start");
       $.ajax({
         url:'/start',
         type:"GET",
@@ -64,7 +64,7 @@ function start(){
           loading()
           reload()
 
-          console.log(data)
+          console.log(data);
 }})}
       
 
@@ -74,7 +74,6 @@ function start(){
 
 
     function fetch(){
-      console.log("hii")
       $.ajax({
         url:'/details',
         type:"GET",
@@ -83,8 +82,9 @@ function start(){
         success:function(data){
           
           gt= data.results['CPU Credits'].split('/');
-          la=[gt[1]-gt[0], parseInt(gt[1])];
-          console.log([gt[1]-gt[0], parseInt(gt[1])])
+          console.log(gt);
+          la=[gt[1]-gt[0], parseInt(gt[0])];
+          console.log([gt[1]-gt[0], parseInt(gt[0])]);
           
           var trhtml="";
           $.each(data.results,function(key,value){
