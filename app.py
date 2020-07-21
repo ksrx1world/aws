@@ -44,7 +44,7 @@ volumesize=0
   
 
 
-@app.route('/fggfghhgfhmgkinmoimnhgonmhn')
+@app.route('/')
 def cpucredit():
     ab=reini()
     instance = res.Instance(ab[2])
@@ -84,10 +84,10 @@ def instancedetails():
         } 
     return jsonify(results = jso)
 
-@app.route('/d/')
-def instdetails():
-    ab=reini()
-    return ab[0]
+# @app.route('/d/')
+# def instdetails():
+#     ab=reini()
+#     return ab[0]
     
 @app.route('/stop/', methods=['GET','POST'])
 def stop():
